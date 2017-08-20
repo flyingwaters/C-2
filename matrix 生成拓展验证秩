@@ -1,0 +1,19 @@
+from numpy import *
+import numpy as ra
+col=input("input k for column\n")
+
+line=(col*col+col)/2
+i=ra.random.random_integers(0,1,size=(line,col))
+j=ra.random.random_integers(0,1,size=(line,line-col))
+
+for k in range(0,line):
+	l=0
+	for o in range(0,col):
+		for p in range(o+1,col):
+			j[k][l]=i[k][o]*i[k][p]
+			l=l+1       
+final=ra.hstack((i,j))
+for y in final:
+	print (y)
+print ra.linalg.matrix_rank(final)
+print final.shape
