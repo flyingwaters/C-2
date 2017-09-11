@@ -1,0 +1,21 @@
+import re 
+import requests
+url = 'https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=index&fr=&hs=0&xthttps=111111&sf=1&fmq=&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word=%E5%B0%8F%E9%BB%84%E4%BA%BA&f=3&oq=xiaohuangren&rsp=0'
+html = requests.get(url).text
+pic_url = re.findall('"objURL":"(.*?)",',html,re.S)
+#match all the clauses,python regular expression for re
+i = 0
+for each in pic_url:
+	print each
+	try:
+		pic = requests.get(each,timeout=10)
+	except requests.exceptions.ConnectionError:
+		print "error now for not loading the pictures"
+		continue
+	string = 'picture\\'+str(i)+'.jpg'
+	#str()--->conversion to string
+	fp = open(string,'wb')
+	#establish the file with the name of string,write ability and binary data
+	fp.write(pic.content)
+	fp.close()
+	i+=1
