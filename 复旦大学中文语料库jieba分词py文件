@@ -1,0 +1,41 @@
+#-*-coding:utf-8-*- 2018-04-17 想要用绝佳的编程技术实现一些事情
+import jieba
+import os
+def savefile(savepath,content):
+    with open(savepath,'w',encoding="utf-8") as fp:
+        fp.write(content)
+
+def readfile(path):
+    with open(path,'r',encoding="utf-8") as fp:
+        c=fp.read()
+    return c                      
+before_path = "D:/fenglongyu_SoftWare/data/train/"
+after_path = "D:/fenglongyu_SoftWare/data/textC/"
+catelist = os.listdir(before_path)#获取before_path下所有子目录下 为每个目录下的所有文件
+print(catelist)
+for mydir in catelist:
+    class_path = before_path+mydir+r"/"#拼出分类子目录的路径
+    after_dir = after_path+mydir+r"/"
+          #拼出分词后的料分类目录
+        #不存在路径时创建
+    if not os.path.exists(after_dir):
+        os.makedirs(after_dir)
+    file_list= os.listdir(class_path)
+    for file_path in file_list:
+        fullname = class_path+file_path #拼出文件名的全路径
+        content = readfile(fullname).strip()
+        #读取文件内容
+        #删除换行和多余的空格
+        content_seg = jieba.cut(content)
+        savefile(after_dir+file_path," ".join(content_seg))
+print("分词结束！！")
+
+
+
+
+
+
+
+
+
+
